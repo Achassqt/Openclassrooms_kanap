@@ -2,8 +2,8 @@ getArticles();
 
 // Récupérer les données de l'API
 
-async function getArticles() {
-    await fetch("http://localhost:3000/api/products")
+function getArticles() {
+    fetch("http://localhost:3000/api/products")
     
     .then(function(res) {
         if (res.ok) {

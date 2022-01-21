@@ -53,17 +53,23 @@ function getArticle() {
 })
 }
 
+
 // Panier - localStorage
 
 const addToCartBtn = document.getElementById("addToCart");
 addToCartBtn.addEventListener("click", function() {
 
-// On récupère les valeurs Color et Quantity
+// On récupère les valeurs de l'article
 
     let productColor = document.getElementById("colors").value;
     let productQuantity = document.getElementById("quantity").value;
+    let productImgSrc = document.querySelector(".item__img > img").src;
+    let productImgAlt = document.querySelector(".item__img > img").alt;
+    let productName = document.querySelector("#title").innerHTML;
+    let productPrice = document.getElementById("price").innerHTML;
 
-// On indique comment bien sélectionner les valeurs
+
+// On indique comment bien sélectionner les valeurs Color et Quantity
 
     if(productColor == '') {
         alert("Sélectionnez une couleur");
@@ -78,6 +84,10 @@ addToCartBtn.addEventListener("click", function() {
             productId,
             productColor,
             productQuantity,
+            productImgSrc,
+            productImgAlt,
+            productName,
+            productPrice,
         };
 
         let productInCart = JSON.parse(localStorage.getItem("produit"));

@@ -73,3 +73,18 @@ if(productInCart === null) {
 
     }
 }
+
+function total() {
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    for (let i = 0; i < productInCart.length; i++) {
+        totalQuantity += parseInt(productInCart[i].productQuantity);
+        document.getElementById("totalQuantity").innerHTML = totalQuantity;
+
+        totalPrice += parseInt(productInCart[i].productPrice * productInCart[i].productQuantity);
+        document.getElementById("totalPrice").innerHTML = totalPrice;
+    }
+}
+
+total()

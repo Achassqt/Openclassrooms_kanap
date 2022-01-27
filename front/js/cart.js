@@ -87,4 +87,17 @@ function total() {
     }
 }
 
-total()
+total();
+
+
+let quantityInput = document.getElementsByClassName("itemQuantity");
+for (let i = 0; i < quantityInput.length; i++) {
+  let input = quantityInput[i];
+  input.addEventListener("change", function() {
+        
+    productInCart[i].productQuantity = parseInt(input.value);
+    localStorage.setItem("produit", JSON.stringify(productInCart));
+    
+    total();
+  });
+}

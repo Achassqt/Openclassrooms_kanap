@@ -126,3 +126,110 @@ for (let i = 0; i < deleteCartItems.length; i++) {
     }
   });
 }
+
+let form = document.querySelector(".cart__order__form");
+
+
+form.email.addEventListener("change", function() {
+  valideEmail(this);
+})
+
+const valideEmail = function(inputEmail) {
+  let emailRegExp = new RegExp(
+    '[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$',
+    'g'
+    );
+    
+    let testEmail = emailRegExp.test(inputEmail.value);
+    let errorMsg = document.getElementById("emailErrorMsg");
+    
+    if (testEmail) {
+      errorMsg.innerHTML = "";   
+    } else {
+      errorMsg.innerHTML = "Email non valide";
+    }
+}
+  
+  
+form.firstName.addEventListener("change", function() {
+  valideFirstName(this);
+})
+
+const valideFirstName = function(inputFirstName) {
+  let nameRegExp = new RegExp(
+    "^[a-zA-Z ,.'-]+$",
+    'g'
+    );
+    
+    let testFirstName = nameRegExp.test(inputFirstName.value);
+    let errorMsg = document.getElementById("firstNameErrorMsg");
+    
+    if (testFirstName) {
+      errorMsg.innerHTML = "";   
+    } else {
+      errorMsg.innerHTML = "Caractères invalides";
+    }
+}
+    
+    
+form.lastName.addEventListener("change", function() {
+  valideLastName(this);
+})
+
+const valideLastName = function(inputLastName) {
+  let nameRegExp = new RegExp(
+    "^[a-zA-Z ,.'-]+$",
+    'g'
+    );
+    
+    let testLastName = nameRegExp.test(inputLastName.value);
+    let errorMsg = document.getElementById("lastNameErrorMsg");
+    
+    if (testLastName) {
+      errorMsg.innerHTML = "";   
+    } else {
+      errorMsg.innerHTML = "Caractères invalides";
+    }
+}
+
+
+form.address.addEventListener("change", function() {
+  valideAddress(this);
+})
+
+const valideAddress = function(inputAddress) {
+  let addressRegExp = new RegExp(
+    "^[a-zA-Z0-9\s,.'-]{3,}$",
+    'g'
+    );
+    
+    let testAddress = addressRegExp.test(inputAddress.value);
+    let errorMsg = document.getElementById("addressErrorMsg");
+    
+    if (testAddress) {
+      errorMsg.innerHTML = "";
+    } else {
+      errorMsg.innerHTML = "Adresse non valide";
+    }
+}
+
+
+form.city.addEventListener("change", function() {
+  valideCity(this);
+})
+
+const valideCity = function(inputCity) {
+  let cityRegExp = new RegExp(
+    "^[a-zA-Z ,.'-]+$",
+    'g'
+    );
+    
+    let testCity = cityRegExp.test(inputCity.value);
+    let errorMsg = document.getElementById("cityErrorMsg");
+    
+    if (testCity) {
+      errorMsg.innerHTML = "";
+    } else {
+      errorMsg.innerHTML = "Caractères invalides";
+    }
+}

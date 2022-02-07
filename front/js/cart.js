@@ -127,6 +127,7 @@ for (let i = 0; i < deleteCartItems.length; i++) {
   });
 }
 
+
 let form = document.querySelector(".cart__order__form");
 
 
@@ -199,7 +200,7 @@ form.address.addEventListener("change", function() {
 
 const valideAddress = function(inputAddress) {
   let addressRegExp = new RegExp(
-    "^[a-zA-Z0-9\s,.'-]{3,}$",
+    "^[a-zA-Z0-9 ,.'-]+$",
     'g'
     );
     
@@ -233,3 +234,51 @@ const valideCity = function(inputCity) {
       errorMsg.innerHTML = "Caractères invalides";
     }
 }
+
+let btnCommander = document.getElementById("order");
+
+btnCommander.addEventListener("click", function(e) {
+  e.preventDefault;
+
+  let productsId = [];
+  for (let i = 0; i < productInCart.length; i++) {
+    productsId.push(productInCart[i].productId);
+  }
+  
+
+  const order = {
+    contact : {
+      firstName: document.getElementById("firstName").value,
+      lastName: document.getElementById("lastName").value,
+      address: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      email: document.getElementById("email").value,
+    },
+    products: productsId,
+  }
+  console.log(order);
+
+  fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    headers: { 
+      'Accept': 'application/json', 
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(order),
+  })
+  .then(function(res) {
+    if (res.ok) {
+      return res.json();
+    }
+  })
+  .then(function(value) {
+    console.log(value);
+    localStorage.clear();
+    window.location.href = `confirmation.html?id=${value.orderId}`;
+  })
+  .catch(function(err) {
+    console.log(err);
+
+  })
+})
+

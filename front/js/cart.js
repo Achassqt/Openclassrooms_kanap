@@ -1,9 +1,14 @@
-let productInCart = JSON.parse(localStorage.getItem("produit"));
+// On déclare un variable pour récupérer le contenue du localStorage
+
+let productInCart = JSON.parse(localStorage.getItem("produit"));          
 console.table(productInCart);
 
 if(productInCart === null) {
     document.getElementById("cart__items").innerHTML = "Votre panier est vide";
 } else {
+
+// Boucle for pour récupérer et afficher les infos des produits dans le localStorage
+
     for(let produit in productInCart) {
 
         let productArticle = document.createElement("article");
@@ -74,6 +79,9 @@ if(productInCart === null) {
     }
 }
 
+
+// Function pour calculer et afficher la quantité et le prix total
+
 function total() {
     let totalQuantity = 0;
     let totalPrice = 0;
@@ -92,7 +100,7 @@ function total() {
 total();
 
 
-// modif prix et quantité
+// Utilisation de la boucle for + d'un addEventListener "change" pour modifier la quantité d'un produit puis on appelle la function total pour recalculer le prix et la quantité total
 
 let quantityInput = document.getElementsByClassName("itemQuantity");
 for (let i = 0; i < quantityInput.length; i++) {
@@ -106,6 +114,8 @@ for (let i = 0; i < quantityInput.length; i++) {
   });
 }
 
+// Boucle for + addEventListener "click" pour supprimer un produit du localStorage puis on appelle la fonction total pour recalculer le prix et la quantité et un if pour afficher "votre panier est vide"
+
 let deleteCartItems = document.getElementsByClassName("deleteItem");
 for (let i = 0; i < deleteCartItems.length; i++) {
   let button = deleteCartItems[i];
@@ -114,6 +124,7 @@ for (let i = 0; i < deleteCartItems.length; i++) {
     let buttonClicked = e.target;
     buttonClicked.closest("article").remove();
     
+// splice sert à retirer l'élément supprimer du localStorage
     productInCart.splice(i, 1);
     localStorage.setItem("produit", JSON.stringify(productInCart));
     
@@ -126,6 +137,8 @@ for (let i = 0; i < deleteCartItems.length; i++) {
     }
   });
 }
+
+// Formulaire 
 
 
 let form = document.querySelector(".cart__order__form");
@@ -235,16 +248,22 @@ const valideCity = function(inputCity) {
     }
 }
 
+
+// Validation de la commande
+
 let btnCommander = document.getElementById("order");
 
 btnCommander.addEventListener("click", function(e) {
   e.preventDefault;
+
+// Création d'un tableau pour mettre les id des différents produits séléctionnés
 
   let productsId = [];
   for (let i = 0; i < productInCart.length; i++) {
     productsId.push(productInCart[i].productId);
   }
   
+// Objet pour stocker les infos du formulaire et le tableau des id
 
   const order = {
     contact : {
@@ -257,6 +276,8 @@ btnCommander.addEventListener("click", function(e) {
     products: productsId,
   }
   console.log(order);
+
+// Envoi de l'objet "order" avec la méthode POST
 
   fetch("http://localhost:3000/api/products/order", {
     method: "POST",
@@ -271,6 +292,9 @@ btnCommander.addEventListener("click", function(e) {
       return res.json();
     }
   })
+
+// function pour vider le localStorage et mettre l'id evoyé par l'API dans le lien de la page confirmation.html
+
   .then(function(value) {
     console.log(value);
     localStorage.clear();

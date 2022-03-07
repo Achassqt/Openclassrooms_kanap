@@ -1,6 +1,7 @@
 getArticles();
 
 // Récupérer les données de l'API
+// Utilisation de la méthode GET pour récupérer les produits de l'API
 
 function getArticles() {
     fetch("http://localhost:3000/api/products")
@@ -22,6 +23,9 @@ function getArticles() {
     .then(function(resultAPI) {
         const articles = resultAPI;
         console.table(articles);
+
+// Utilisation de la boucle for... in pour afficher les produits un à un 
+
         for(let article in articles) {
 
             let productLink = document.createElement("a");

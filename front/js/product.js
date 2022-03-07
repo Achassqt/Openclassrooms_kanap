@@ -1,3 +1,5 @@
+// Récupération de l'id du produit avec l'utilisation de URLSearchParams
+
 let str = window.location.href;
 let url = new URL(str);
 let productId = url.searchParams.get("id");
@@ -6,6 +8,7 @@ console.log(productId);
 getArticle()
 
 // Récupérer les données de l'API
+// Utilisation de la méthode GET pour récupérer les informations d'un produit
 
 function getArticle() {
     fetch("http://localhost:3000/api/products/" + productId)
@@ -21,36 +24,38 @@ function getArticle() {
 
 // Insertion de chaque élément dans la page produit 
 
-.then(function(resultAPI) {
-    const article = resultAPI;
-    console.table(article);
+    .then(function(resultAPI) {
+        const article = resultAPI;
+        console.table(article);
 
-    let productImg = document.createElement("img");
-    document
-    .querySelector(".item__img")
-    .appendChild(productImg);
-    productImg.src = article.imageUrl;
-    productImg.alt = article.altTxt;
-
-    let productName = document.getElementById("title");
-    productName.innerHTML = article.name;
-
-    let productPrice = document.getElementById("price");
-    productPrice.innerHTML = article.price;
-
-    let productDescription = document.getElementById("description");
-    productDescription.innerHTML = article.description;
-
-    for (let colors of article.colors){
-        console.table(colors);
-        let productColors = document.createElement("option");
+        let productImg = document.createElement("img");
         document
-        .getElementById("colors")
-        .appendChild(productColors);
-        productColors.value = colors;
-        productColors.innerHTML = colors;
-    }
-})
+        .querySelector(".item__img")
+        .appendChild(productImg);
+        productImg.src = article.imageUrl;
+        productImg.alt = article.altTxt;
+
+        let productName = document.getElementById("title");
+        productName.innerHTML = article.name;
+
+        let productPrice = document.getElementById("price");
+        productPrice.innerHTML = article.price;
+
+        let productDescription = document.getElementById("description");
+        productDescription.innerHTML = article.description;
+
+// Boucle for... of pour récupérer et afficher les différentes couleurs d'un produit 
+
+        for (let colors of article.colors){
+            console.table(colors);
+            let productColors = document.createElement("option");
+            document
+            .getElementById("colors")
+            .appendChild(productColors);
+            productColors.value = colors;
+            productColors.innerHTML = colors;
+        }
+    })
 }
 
 
@@ -59,7 +64,7 @@ function getArticle() {
 const addToCartBtn = document.getElementById("addToCart");
 addToCartBtn.addEventListener("click", function() {
 
-// On récupère les valeurs de l'article
+// On récupère les différentes valeurs du produits
 
     let productColor = document.getElementById("colors").value;
     let productQuantity = document.getElementById("quantity").value;
@@ -78,7 +83,7 @@ addToCartBtn.addEventListener("click", function() {
 
     } else {    
 
-// Variable pour avoir une meilleur présentation dans le localStorage (peux faire sans)        
+// Objet pour stocker toutes les informations du produit         
 
         let optionsProduit = {
             productId,
@@ -90,18 +95,20 @@ addToCartBtn.addEventListener("click", function() {
             productPrice,
         };
 
+// Création de la variable du localStorage
+
         let productInCart = JSON.parse(localStorage.getItem("produit"));
 
-// fonction fenêtre popup 
+// fonction fenêtre popup pour indiquer que le produit est ajouté au panier
 
-const popupConfirmation = () => {
-    if(window.confirm(`Votre commande a bien été ajouté au panier
-    Pour consulter votre panier, cliquez sur OK`)) {
-        window.location.href = "cart.html";
-    }
-}
+        const popupConfirmation = () => {
+            if(window.confirm(`Votre commande a bien été ajouté au panier
+            Pour consulter votre panier, cliquez sur OK`)) {
+                window.location.href = "cart.html";
+            }
+        }
 
-// Si le localStorage est vide, on crée un tableau pour le produit sélectionné (id, color, quantity)
+// Si le localStorage est vide, on crée un tableau et on push "optionsProduit" pour stocker les infos du produit
 
         if(productInCart === null) {
             productInCart = []
@@ -109,7 +116,7 @@ const popupConfirmation = () => {
             localStorage.setItem("produit", JSON.stringify(productInCart));
             popupConfirmation();
 
-// Si le localStorage a déjà un produit, on crée un nouveau tableau
+// Si le localStorage a déjà un produit, on crée un nouveau tableau ...
 
         } else {
             productInCart.push(optionsProduit);
